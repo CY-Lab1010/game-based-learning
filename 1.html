@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知识闯关 · 女性健康专题</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: linear-gradient(145deg, #fdf4f0 0%, #ffe6df 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 16px;
+        }
+        .game-card {
+            max-width: 750px;
+            width: 100%;
+            background: rgba(255, 250, 245, 0.92);
+            backdrop-filter: blur(8px);
+            border-radius: 48px;
+            box-shadow: 0 20px 40px rgba(100, 40, 20, 0.2), 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 32px 28px;
+            border: 1px solid rgba(255, 220, 200, 0.7);
+            transition: all 0.2s ease;
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #9b4b3e;
+            text-align: center;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 0 #ffe0d4;
+        }
+        .subhead {
+            text-align: center;
+            color: #b97f6e;
+            margin-bottom: 28px;
+            font-style: italic;
+            border-bottom: 2px dashed #f7cfbf;
+            padding-bottom: 12px;
+            font-weight: 500;
+        }
+        .stats-panel {
+            background: #fff4ef;
+            border-radius: 60px;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #7b4a3a;
+            margin-bottom: 30px;
+            box-shadow: inset 0 1px 4px #f0cfc0, 0 6px 12px rgba(90, 40, 20, 0.1);
+        }
+        .badge {
+            background: #c27e6a;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-size: 1rem;
+            box-shadow: 0 4px 0 #7e4b3a;
+        }
+        .score {
+            background: #f5c4a3;
+            color: #6d3e2c;
+            padding: 6px 20px;
+            border-radius: 40px;
+            box-shadow: 0 4px 0 #cb916c;
+            font-weight: 700;
+        }
+        #question-box {
+            background: white;
+            border-radius: 40px;
+            padding: 28px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 12px 0 #dbbcaa, 0 8px 20px rgba(80, 40, 20, 0.15);
+            border: 2px solid #ffe2d4;
+        }
+        .question-text {
+            font-size: 1.7rem;
+            font-weight: 600;
+            line-height: 1.35;
+            color: #6f3c2b;
+            text-align: center;
+            word-break: break-word;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 32px 0 16px;
+        }
+        .option-btn {
+            background: #fff6f0;
+            border: 3px solid #f7cfbf;
+            border-radius: 60px;
+            padding: 16px 8px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #8b4f3b;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            box-shadow: 0 5px 0 #cfaa97;
+            text-align: center;
+            letter-spacing: 0.3px;
+        }
+        .option-btn:hover {
+            background: #ffe7dd;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #cfaa97;
+        }
+        .option-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #cfaa97;
+        }
+        #message-area {
+            min-height: 110px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: left;
+            padding: 14px 18px;
+            background: #fffef7;
+            border-radius: 32px;
+            margin: 16px 0 8px;
+            border-left: 8px solid #e7a17a;
+            line-height: 1.45;
+            color: #4b2c1f;
+            box-shadow: inset 0 0 0 1px #ffefdf, 0 2px 6px rgba(0,0,0,0.03);
+        }
+        .restart-btn {
+            background: #b46a53;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding: 14px 28px;
+            border-radius: 60px;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 7px 0 #6f3e2b;
+            transition: 0.08s linear;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            border: 2px solid #fcd9ca;
+        }
+        .restart-btn:hover {
+            background: #c47c62;
+            transform: translateY(-2px);
+            box-shadow: 0 9px 0 #6f3e2b;
+        }
+        .restart-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 3px 0 #6f3e2b;
+        }
+        .congrats-message {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #4b6e3e;
+            background: #ecffe5;
+            padding: 40px 20px;
+            border-radius: 40px;
+            border: 4px solid #8fc97c;
+            box-shadow: inset 0 0 0 2px white;
+        }
+        .footer-note {
+            text-align: center;
+            color: #b08772;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            opacity: 0.85;
+        }
+        @media (max-width: 550px) {
+            .game-card { padding: 20px; }
+            .options-grid { grid-template-columns: 1fr; }
+            .question-text { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="game-card">
+    <h1>🌸 知识闯关 · 女性健康</h1>
+    <div class="subhead">每道题都会展示正确答案 + 详细解析，边学边通关</div>
+
+    <div class="stats-panel" id="stats-panel">
+        <span class="badge" id="level-display">第 1 / 5 关</span>
+        <span class="score" id="score-display">得分 0</span>
+    </div>
+
+    <div id="question-box">
+        <div id="question-container">
+            <div class="question-text" id="question-text"></div>
+            <div class="options-grid" id="options-container"></div>
+        </div>
+        <div id="message-area"></div>
+    </div>
+
+    <button class="restart-btn" id="restart-game">⟳ 重新闯关</button>
+    <div class="footer-note">✔️ 无论对错，都会展示正确答案与中医/西医解析 | 答对自动进入下一题</div>
+</div>
+
+<script>
+    (function() {
+        // ---------- 新题库（女性健康专题）----------
+        const quizData = [
+            { 
+                question: "关于正常的月经周期，以下哪项描述是准确的？", 
+                options: [
+                    "A. 必须严格每28天一次，才算正常",
+                    "B. 只要每次周期规律，在21-35天之间都属于正常范围",
+                    "C. 月经周期指的是月经流血的持续天数",
+                    "D. 偶尔推迟两个月也没关系，不用在意"
+                ], 
+                correct: 1,      // 索引1 -> B
+                explanation: "✅ 正确答案：B<br>📖 解析：正常的月经周期（从这次月经第一天到下次月经第一天）通常为21-35天，平均28天。只要在这个范围内且规律，就是正常的。周期是指整个间隔天数（A❌），而非流血天数（C❌）。如果偶尔推迟，需要排除妊娠、压力或内分泌因素，长期推迟两个月需要就医（D❌）。"
+            },
+            { 
+                question: "关于正常的经期（出血天数），以下哪项是正确的？", 
+                options: [
+                    "A. 只要3天内干净就是最好的",
+                    "B. 持续7-10天也算正常",
+                    "C. 通常为3-7天",
+                    "D. 经期越长，排毒越干净"
+                ], 
+                correct: 2,      // 索引2 -> C
+                explanation: "✅ 正确答案：C<br>📖 解析：正常的经期持续时间一般为3-7天。少于3天可能提示内膜过薄或激素问题，超过7天淋漓不尽（B❌）属于经期延长，可能是子宫肌瘤、内分泌失调或息肉的信号，需要就医。月经不是排毒（D❌）。"
+            },
+            { 
+                question: "经期出现轻微腹痛，首选哪种调理方法？", 
+                options: [
+                    "A. 立即服用止痛药",
+                    "B. 热敷下腹部并饮用温红糖水",
+                    "C. 剧烈运动转移注意力",
+                    "D. 拔罐放血治疗"
+                ], 
+                correct: 1,      // 索引1 -> B
+                explanation: "✅ 正确答案：B<br>📖 中医解析：寒凝血瘀是常见痛经病因，热敷可温通血脉，红糖水补血化瘀。止痛药（A）仅暂时缓解，剧烈运动（C）耗伤气血，拔罐（D）适用于实热证而非经期。"
+            },
+            { 
+                question: "经期情绪烦躁，中医认为主要与哪一脏器相关？", 
+                options: [
+                    "A. 心",
+                    "B. 肝",
+                    "C. 脾",
+                    "D. 肾"
+                ], 
+                correct: 1,      // 索引1 -> B
+                explanation: "✅ 正确答案：B<br>📖 中医解析：肝主疏泄，调畅情志。经血下注时肝血相对不足，疏泄失常易致烦躁（肝气郁结）。心（A）主神明但非主因，脾（C）主运化，肾（D）主生殖。"
+            },
+            { 
+                question: "以下哪种情况需要立即就医？", 
+                options: [
+                    "A. 经前乳房胀痛",
+                    "B. 少量血块持续2天",
+                    "C. 非经期阴道出血",
+                    "D. 经期轻微腹泻"
+                ], 
+                correct: 2,      // 索引2 -> C
+                explanation: "✅ 正确答案：C<br>📖 中医解析：非经期出血（崩漏/癥瘕）提示器质性病变可能。经前乳胀（A）属肝郁常见，血块（B）若无腹痛可观察，经期腹泻（D）多属脾虚湿盛。"
+            }
+        ];
+
+        const totalQuestions = quizData.length;
+        let currentIndex = 0;          // 当前关卡索引
+        let score = 0;
+        let isAnswering = false;        // 防止连点 / 计时冲突
+        let pendingTimer = null;        // 定时器句柄
+
+        // DOM 元素
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const messageArea = document.getElementById('message-area');
+        const levelDisplay = document.getElementById('level-display');
+        const scoreDisplay = document.getElementById('score-display');
+        const restartBtn = document.getElementById('restart-game');
+        const questionBox = document.getElementById('question-box');
+
+        // 清理计时器
+        function clearGameTimer() {
+            if (pendingTimer) {
+                clearTimeout(pendingTimer);
+                pendingTimer = null;
+            }
+        }
+
+        // 更新顶部状态栏
+        function updateStatusBar() {
+            if (currentIndex < totalQuestions) {
+                levelDisplay.textContent = `第 ${currentIndex + 1} / ${totalQuestions} 关`;
+            } else {
+                levelDisplay.textContent = `🏆 通关 🏆`;
+            }
+            scoreDisplay.textContent = `得分 ${score}`;
+        }
+
+        // 获取当前题目对象
+        function getCurrentQuestion() {
+            if (currentIndex >= totalQuestions) return null;
+            return quizData[currentIndex];
+        }
+
+        // 显示反馈（带正确答案与解析）
+        function displayFeedback(isCorrect, questionObj) {
+            // 直接使用题目中预制的 explanation（已包含正确答案标志和解析内容）
+            // 为了风格统一，我们保留完整的解析文本，并额外加上对错提示标识
+            const correctBadge = isCorrect ? "🎉 回答正确！" : "❌ 回答错误！";
+            // 展示完整的解析（explanation字段中已包含✅正确答案和详细说明，无需二次加工）
+            const fullExplanation = questionObj.explanation;
+            // 组合显示：对错状态 + 详细解析
+            const feedbackHtml = `
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <div><strong style="color:#c25d3a;">${correctBadge}</strong></div>
+                    <div>${fullExplanation}</div>
+                </div>
+            `;
+            messageArea.innerHTML = feedbackHtml;
+        }
+
+        // 渲染界面（正常题目 / 通关界面）
+        function render() {
+            clearGameTimer();
+            isAnswering = false;   // 重置操作锁
+
+            if (currentIndex >= totalQuestions) {
+                // 通关界面
+                questionTextEl.style.display = 'none';
+                optionsContainer.style.display = 'none';
+                let congratsDiv = document.getElementById('congrats-div');
+                if (!congratsDiv) {
+                    congratsDiv = document.createElement('div');
+                    congratsDiv.id = 'congrats-div';
+                    congratsDiv.className = 'congrats-message';
+                    questionBox.appendChild(congratsDiv);
+                }
+                congratsDiv.innerHTML = '✨ 恭喜你！完成女性健康专题 ✨<br>掌握知识，关爱自己，通关成功！';
+                congratsDiv.style.display = 'block';
+                messageArea.innerHTML = '';
+            } else {
+                // 正常题目渲染
+                questionTextEl.style.display = 'block';
+                optionsContainer.style.display = 'grid';
+                const congratsDiv = document.getElementById('congrats-div');
+                if (congratsDiv) congratsDiv.style.display = 'none';
+
+                const currentQ = quizData[currentIndex];
+                questionTextEl.textContent = currentQ.question;
+
+                // 生成选项按钮（保留原始字母前缀，更易读）
+                let optionsHtml = '';
+                currentQ.options.forEach((opt, idx) => {
+                    optionsHtml += `<button class="option-btn" data-opt-index="${idx}">${opt}</button>`;
+                });
+                optionsContainer.innerHTML = optionsHtml;
+                // 清空旧的反馈
+                messageArea.innerHTML = '';
+            }
+            updateStatusBar();
+        }
+
+        // 处理正确回答
+        function handleCorrect(currentQ) {
+            // 显示正确答案+解析
+            displayFeedback(true, currentQ);
+            // 增加得分
+            score++;
+            // 移到下一题
+            currentIndex++;
+            updateStatusBar();
+
+            // 判断是否通关
+            if (currentIndex >= totalQuestions) {
+                render();   // 直接进入通关画面
+                return;
+            }
+
+            // 未通关: 延时1.6秒自动进入下一题，给用户充分时间阅读解析
+            clearGameTimer();
+            pendingTimer = setTimeout(() => {
+                render();
+                pendingTimer = null;
+            }, 1600);
+        }
+
+        // 处理错误回答：显示正确答案+解析，并锁定1.2秒后重新启用选项（题目不变）
+        function handleWrong(currentQ) {
+            // 显示完整正确答案+解析
+            displayFeedback(false, currentQ);
+            // 错误后不扣分，不改索引，仅暂时锁定按钮
+            clearGameTimer();
+            pendingTimer = setTimeout(() => {
+                // 解锁，允许再次尝试
+                isAnswering = false;
+                pendingTimer = null;
+                // 注意不清空消息，保留解析，用户可继续点击其他选项时更新反馈
+            }, 1200);
+        }
+
+        // 选项点击事件（委托）
+        function onOptionClick(e) {
+            const target = e.target;
+            if (!target.classList || !target.classList.contains('option-btn')) return;
+
+            // 通关后不可再点
+            if (currentIndex >= totalQuestions) return;
+            // 正在锁定中（解析展示或跳转倒计时）不可点击
+            if (isAnswering) {
+                // 轻提示（可选）
+                if (messageArea && !messageArea.innerHTML.includes("请稍后")) {
+                    const tip = document.createElement('div');
+                    tip.textContent = "⏳ 请稍后，正在展示解析...";
+                    tip.style.fontSize = "0.8rem";
+                    tip.style.color = "#c2643b";
+                    tip.style.marginTop = "6px";
+                    messageArea.appendChild(tip);
+                    setTimeout(() => { if(tip.parentNode) tip.remove(); }, 800);
+                }
+                return;
+            }
+
+            const currentQ = getCurrentQuestion();
+            if (!currentQ) return;
+
+            const selectedIndex = parseInt(target.dataset.optIndex, 10);
+            const isCorrect = (selectedIndex === currentQ.correct);
+
+            // 锁定，防止重复点击
+            isAnswering = true;
+
+            if (isCorrect) {
+                handleCorrect(currentQ);
+            } else {
+                handleWrong(currentQ);
+            }
+        }
+
+        // 重新开始游戏
+        function restartGame() {
+            clearGameTimer();
+            isAnswering = false;
+            currentIndex = 0;
+            score = 0;
+            render();
+            messageArea.innerHTML = '';
+        }
+
+        // 事件绑定
+        optionsContainer.addEventListener('click', onOptionClick);
+        restartBtn.addEventListener('click', restartGame);
+
+        // 初始化
+        render();
+    })();
+</script>
+</body>
+</html>
