@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI自习室 | Game Based Learning</title>
+    <style>
+        /* 全局重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            background: #ffffff;
+            /* 纯白背景 */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            font-family: "SimHei", "黑体", "Microsoft YaHei", sans-serif;
+            padding-top: 40px;
+            position: relative;
+            min-height: 100vh;
+        }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    background-image: url('./pic.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+        /* ===== 标题 ===== */
+        .title {
+            background: #00FFFF;
+            color: #FFFF00;
+            font-size: 32px;
+            font-weight: 700;
+            padding: 8px 24px;
+            border-radius: 8px;
+            display: inline-block;
+            letter-spacing: normal;
+            line-height: 1.4;
+            position: relative;
+            z-index: 1;
+            font-family: "SimHei", "黑体", "Microsoft YaHei", sans-serif;
+        }
+
+        /* ===== 导航网格容器 ===== */
+        .dashboard {
+            max-width: 900px;
+            width: 100%;
+            padding: 48px 40px 60px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* ===== 网格 ===== */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        /* ===== 卡片 ===== */
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 40px 16px 32px;
+            text-align: center;
+            text-decoration: none;
+            color: #222;
+            border: 1px solid #eeeeee;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: #00FFFF;
+            box-shadow: 0 16px 48px rgba(0, 255, 255, 0.12), 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        /* ===== 图标 — 奶白色，hover 变青色 ===== */
+        .card .icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 48px;
+            height: 48px;
+            margin-bottom: 14px;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            color: #f5f0e8;
+            /* 奶白色 */
+        }
+        .card:hover .icon {
+            color: #00FFFF;
+            /* 标题青色 */
+            transform: scale(1.08);
+        }
+        .card .icon svg {
+            width: 48px;
+            height: 48px;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .card .name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: "SimHei", "黑体", "Microsoft YaHei", sans-serif;
+            letter-spacing: 2px;
+            color: #1a1a1a;
+        }
+        .card .desc {
+            font-size: 0.75rem;
+            color: #bbb;
+            font-weight: 300;
+            margin-top: 6px;
+            letter-spacing: 1.5px;
+        }
+
+        /* ===== 底部固定 ===== */
+        .footer-info {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 0;
+            background: transparent;
+            padding: 8px 20px;
+            border-radius: 20px;
+            backdrop-filter: none;
+        }
+
+        .footer-image {
+            flex-shrink: 0;
+            width: 160px;
+            height: 160px;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .footer-image img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 0;
+        }
+
+        .credit-text {
+            font-family: "SimHei", "黑体", "Microsoft YaHei", sans-serif;
+            color: #cccccc;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 700px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+            .dashboard {
+                padding: 30px 16px 80px;
+            }
+            .card {
+                padding: 28px 12px 24px;
+                min-height: 160px;
+            }
+            .card .icon {
+                width: 36px;
+                height: 36px;
+            }
+            .card .icon svg {
+                width: 36px;
+                height: 36px;
+            }
+            .card .name {
+                font-size: 0.95rem;
+            }
+            .footer-image {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .title {
+                font-size: 20px;
+                padding: 6px 16px;
+            }
+            .card {
+                padding: 20px 8px 16px;
+                min-height: 130px;
+            }
+            .card .icon {
+                width: 28px;
+                height: 28px;
+                margin-bottom: 8px;
+            }
+            .card .icon svg {
+                width: 28px;
+                height: 28px;
+            }
+            .card .name {
+                font-size: 0.85rem;
+                letter-spacing: 1px;
+            }
+            .card .desc {
+                font-size: 0.65rem;
+            }
+            .footer-image {
+                width: 70px;
+                height: 70px;
+            }
+            .credit-text {
+                font-size: 12px;
+                letter-spacing: 2px;
+            }
+            .footer-info {
+                gap: 8px;
+                padding: 4px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== 标题 ===== -->
+    <span class="title">AI自习室 | Game Based Learning</span>
+
+    <!-- ===== 导航区域 ===== -->
+    <div class="dashboard">
+        <div class="grid">
+            <!-- 爱情 -->
+            <a href="https://jointings.org/cn/wp-content/uploads/2026/03/romantic-relationship.html" target="_blank" class="card">
+                <span class="icon">
+                    <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </span>
+                <div class="name">爱情</div>
+                <div class="desc">亲密 · 边界 · 信任</div>
+            </a>
+            <!-- 友谊 -->
+            <a href="https://jointings.org/cn/wp-content/uploads/2026/03/friendship.html" target="_blank" class="card">
+                <span class="icon">
+                    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </span>
+                <div class="name">友谊</div>
+                <div class="desc">平等 · 尊重 · 支持</div>
+            </a>
+            <!-- 职场 -->
+            <a href="https://jointings.org/cn/wp-content/uploads/2026/03/workplace.html" target="_blank" class="card">
+                <span class="icon">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                </span>
+                <div class="name">职场</div>
+                <div class="desc">权力 · 边界 · 协作</div>
+            </a>
+            <!-- 师生 -->
+            <a href="https://jointings.org/cn/wp-content/uploads/2026/03/ts0.html" target="_blank" class="card">
+                <span class="icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                </span>
+                <div class="name">师生</div>
+                <div class="desc">引导 · 成长 · 边界</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== 底部固定 ===== -->
+    <div class="footer-info">
+        <div class="footer-image">
+            <img src="https://mmbiz.qpic.cn/mmbiz_png/TQ4pHAHnxoqzWAICKQM2sIu5NlIKI8Iaucl2vjYLqibCsNzppibZztDkjgFqQhxXzUru4YeZrfibTibn1ZuRMFtrRYXx6UFIWBicybf0Qs28PFUM/640?wx_fmt=png&from=appmsg" alt="底部装饰" />
+        </div>
+        <span class="credit-text">presents</span>
+    </div>
+
+</body>
+</html>
