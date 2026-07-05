@@ -153,7 +153,7 @@ body {
             align-items: center;
             gap: 16px;
             z-index: 0;
-            background: transparent;
+            background: #FFFFFF;
             padding: 8px 20px;
             border-radius: 20px;
             backdrop-filter: none;
@@ -162,7 +162,7 @@ body {
         .footer-image {
             flex-shrink: 0;
             width: 160px;
-            height: 160px;
+            height: 40px;
             background: transparent;
             display: flex;
             align-items: center;
@@ -300,28 +300,13 @@ body {
     </div>
 
 <!-- ===== 底部固定 ===== -->
-.footer-info {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background: #FFFFFF;
-    padding: 16px 24px;
-    border-radius: 16px;
-    margin-top: 40px;
-}
+<div class="footer-info">
+    <div class="footer-image">
+        <img src="./mth_logo.png"/>
+    </div>
+    <span class="credit-text">presents</span>
+</div>
 
-.footer-image img {
-    height: 30px;          /* 控制图片高度，宽度自适应 */
-    width: auto;
-    display: block;
-}
-
-.credit-text {
-    color: #333;
-    font-size: 14px;
-    font-weight: 500;
-}
       
 
 </body>
