@@ -46,8 +46,9 @@ body {
 
         /* ===== 标题 ===== */
         .title {
-            background: #00FFFF;
+            background: transparent;
             color: #FFFF00;
+text-shadow: 0 0 20px rgba(0,0,0,0.8), 2px 2px 4px rgba(0,0,0,0.9);
             font-size: 32px;
             font-weight: 700;
             padding: 8px 24px;
@@ -147,16 +148,21 @@ body {
         .footer-info {
             position: fixed;
             bottom: 30px;
-            left: 50%;
+            left: 0;
+right: 0; 
+border-radius: 0
             transform: translateX(-50%);
             display: flex;
             align-items: center;
+ justify-content: center; 
             gap: 16px;
             z-index: 999;
-            background:transparent;
-            padding: 8px 20px;
-            border-radius: 20px;
+            background:#FFFFFF;
+         
+margin: 0px;  
+width: auto; 
         }
+
 
         .footer-image {
             flex-shrink: 0;
@@ -166,6 +172,9 @@ body {
             display: flex;
             align-items: center;
             justify-content: center;
+position: relative; 
+z-index: 1; 
+
         }
         .footer-image img {
             display: block;
@@ -182,7 +191,9 @@ body {
             font-weight: 700;
             letter-spacing: 4px;
             line-height: 1;
-            white-space: nowrap;
+            white-space: nowrap; 
+position: relative; 
+z-index: 1; 
         }
 
         /* ===== 响应式 ===== */
