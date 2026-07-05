@@ -300,13 +300,28 @@ body {
     </div>
 
 <!-- ===== 底部固定 ===== -->
-<div class="footer-info">
-    <div class="footer-image">
-       <img src="./mth_logo.png" style="height: 30px; width: auto;" />
-    </div>
-    <span class="credit-text">presents</span>
-</div>
+.footer-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #FFFFFF;
+    padding: 16px 24px;
+    border-radius: 16px;
+    margin-top: 40px;
+}
 
+.footer-image img {
+    height: 30px;          /* 控制图片高度，宽度自适应 */
+    width: auto;
+    display: block;
+}
+
+.credit-text {
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+}
       
 
 </body>
